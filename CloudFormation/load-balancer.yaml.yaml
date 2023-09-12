@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security group
+
+Resources:
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: "LoadBalancer"
+      SecurityGroups:
+        - !ImportValue SGEC2
+      Subnets:
+        - !ImportValue PubSubnet1
+        - !ImportValue PubSubnet2
+
+  ListenerLB:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: "TargetGroup"
+      Port: 80
+      Protocol: "HTTP"
+      TargetType: instance
+      VpcId: !ImportValue VPC
+
+Outputs:
+  TargetGroup:
+    Description: TargetGroup
+    Value: !Ref TargetGroup
+    Export:
+      Name: TargetGroup
+
+  DNSName:
+    Description: DNSName
+    Value: !GetAtt 'LoadBalancer.DNSName'
+    Export:
+      Name: DNSName

@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security group
+
+Resources:
+  # SecurityGroup 
+  SGEC2:  
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupName: "SGEC2"
+        GroupDescription: "Security group for EC2"
+        VpcId: !ImportValue VPC
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 80 #HTTP
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 443 #HTTPS
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+  # SecurityGroup RDS
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: RDSSecurityGroup
+      GroupDescription: Security group for RDS
+      VpcId: !ImportValue VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref SGEC2
+Outputs:
+  SGEC2:
+    Description: Security Group EC2
+    Value: !Ref SGEC2
+    Export:
+      Name: SGEC2
+  
+  RDSSecurityGroup:
+    Description: Security Group RDS
+    Value: !Ref RDSSecurityGroup
+    Export:
+      Name: RDSSecurityGroup

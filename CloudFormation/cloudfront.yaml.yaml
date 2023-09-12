@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security group
+
+Parameters:
+
+##Price Class  
+## N.B ogni classe ha un costo diverso:
+### "PriceClass_All" (La classe di prezzo più costosa che include tutte le edge location di CloudFront in tutto il mondo).
+### "PriceClass_100" (Include le edge location più comuni e offre buone prestazioni globali a un costo inferiore rispetto a PriceClass_All).
+### "PriceClass_200" (Include un sottoinsieme di edge location rispetto a PriceClass_100, ottimo per distribuzioni regionali o limitate).
+  PriceClassCloudFront:
+    Description: CloudFront Price Class
+    Type: String
+    Default: 'PriceClass_200'
+    AllowedValues: ['PriceClass_All','PriceClass_100','PriceClass_200']
+
+Resources:
+
+  CloudFrontDistribution:
+      Type: 'AWS::CloudFront::Distribution'
+      Properties:
+        DistributionConfig:
+          #contiene la configurazione principale per la distribuzione
+          DefaultCacheBehavior:
+            #metodi consentiti per la cache
+            AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+            #Per quanto tempo un singolo  contenuto in cache è ritenuto valido  3600= 1 ora
+            DefaultTTL: 0
+            #tempo massimo in cui tutti gli elementi rimangono in cache
+            MaxTTL: 0
+            #tempo minimo  di validita per gli elementi in cache
+            MinTTL: 0
+            #viene definito come rispondere alle richieste degli utenti
+            #ho impostato a 0 il TTL il che vuol dire che Cloudfront non mantiene il contenuto nella cache
+            #dovevo fare
+            #DefaultTTL: 3600 # Conserva nella cache per 1 ora
+            #MaxTTL: 86400 # Massimo 1 giorno nella cache
+            #MinTTL: 60 # Minimo 1 minuto nella cache
+            
+            ForwardedValues:
+              #se abbiamo una query string (?...) è consentita
+              QueryString: true
+              # * --> inoltro tutti gli header all' origine
+              Headers:
+              - '*'
+              Cookies:
+                Forward: all
+              
+            TargetOriginId: LB
+            ViewerProtocolPolicy: 'redirect-to-https'
+            #risparmio sulla larghezza di banda
+            Compress: true
+          Enabled: true
+          IPV6Enabled: true
+          Origins:
+          - DomainName: !ImportValue DNSName
+            Id: LB
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: 'https-only'
+              OriginReadTimeout: 60
+          PriceClass: !Ref PriceClassCloudFront
+          HttpVersion: http2and3

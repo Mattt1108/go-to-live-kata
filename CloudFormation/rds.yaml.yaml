@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security group
+
+Parameters:
+##MultiAZ
+  DBMAZ:
+    Description: Boolean parameter to enable Multi-AZ for the database
+    Type: String
+    #Di default lo disabilito perchè ha un costo maggiore
+    Default: "false"
+    AllowedValues:
+      - "true"
+      - "false"
+##Storage DB
+  StorageDB:
+    Type: Number
+    #di default setto 5GB (il minimo)
+    Default: 5
+    Description: DB Storage (GB)
+##DB NAME
+  DBNAME:
+    Type: String
+    Default: wordpress
+    Description: wordpress (default --> wordpress)
+##USERNAME
+  USERNAME:
+    Type: String
+    Default: wordpress
+    Description: Username for wordpress (default --> wordpress)
+##PASSWORD
+  PASSWORD:
+    Type: String
+    Default: password123
+    Description: Password for wordpress (default --> password123) , the default password is not recommended
+    NoEcho: true
+
+Resources:
+  
+  #RDS    
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for RDS
+      SubnetIds:
+        - !ImportValue PrvSubnet1
+        - !ImportValue PrvSubnet2
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: !Ref StorageDB
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      EngineVersion: "5.7"
+      MasterUsername: !Ref USERNAME
+      MasterUserPassword: !Ref PASSWORD
+      DBName: !Ref DBNAME
+      MultiAZ: !Ref DBMAZ
+      StorageType: gp2
+      VPCSecurityGroups:
+        - !ImportValue RDSSecurityGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
+  

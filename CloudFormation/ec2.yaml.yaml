@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security group
+
+Parameters:
+  #NumeroMinEC2
+  NumeroMinEC2:
+    Description: minimum number of instances
+    Type: Number
+    Default: 2
+  #NumeroMaxEC2
+  NumeroMaxEC2:
+    Description: Maximum number of instances 
+    Type: Number
+    Default: 4
+  #NumeroDesEC2
+  NumeroDesEC2:
+    Description: desired ec2 number
+    Type: Number
+    Default: 2
+  
+  #Wordpress version
+  WPV:
+    Description: Wordpress version
+    Type: String
+    Default: latest
+    AllowedValues: [5.4,5.5,5.6,5.7,5.8,6.1,6.2,latest]
+
+
+Resources:
+
+  LaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: !FindInMap [Region, !Ref 'AWS::Region',ami1]  # AMI ubuntu 22.04
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !ImportValue SGEC2
+      UserData:
+        Fn::Base64: 
+          Fn::Sub:
+            - |
+              #!/bin/bash
+              apt-get update
+              apt-get install -y apache2
+              mkdir /var/www/html
+              echo "<html><head><title>Sito Web di Esempio</title></head><body><h1>Benvenuto nel mio sito web!</h1></body></html>" > /var/www/html/index.html
+              systemctl enable apache2
+              systemctl start apache2
+            - {}
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: "AutoScalingGroup"
+      LaunchConfigurationName: !Ref LaunchConfig
+      MinSize: !Ref NumeroMinEC2
+      MaxSize: !Ref NumeroMaxEC2
+      DesiredCapacity: !Ref NumeroDesEC2
+      VPCZoneIdentifier:
+        - !ImportValue PrvSubnet1
+        - !ImportValue PrvSubnet2
+      TargetGroupARNs:
+        - !ImportValue TargetGroup
+
+Mappings: 
+  Region: 
+    eu-west-1: 
+      ami1: ami-01dd271720c1ba44f
+    eu-west-2: 
+      ami1: ami-0eb260c4d5475b901
+    us-east-1:
+      ami1: ami-053b0d53c279acc90
+    us-east-2:
+      ami1: ami-024e6efaf93d85776
+    ap-south-1:
+      ami1: ami-0f5ee92e2d63afc18
