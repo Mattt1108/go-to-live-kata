@@ -4,6 +4,11 @@
   become: yes
   vars:
     wordpress_version: "{{ WPV }}"
+    db_name: wordpress
+    db_user: root
+    db_password: your_password
+    db_host: localhost
+    db_prefix: wp_
   tasks:
     - name: Update apt package cache
       apt:
@@ -39,22 +44,8 @@
         group: www-data
         recurse: yes
 
-    - name: Configure WordPress database
-      command: >
-        wp core config
-        --dbname=wordpress
-        --dbuser=root
-        --dbpass=your_password
-        --dbhost=localhost
-        --dbprefix=wp_
-        --path=/var/www/html/wordpress
-      args:
-        creates: /var/www/html/wordpress/wp-config.php
+    - name: Create wp-config.php
+      template:
+        src: wp-config.php.j2
+        dest: /var/www/html/wordpress/wp-config.php
       when: not ansible_check_mode
-      register: wp_config_result
-
-    - name: Install WordPress
-      command: wp core install
-      args:
-        chdir: /var/www/html/wordpress
-      when: not ansible_check_mode and wp_config_result.rc == 0
