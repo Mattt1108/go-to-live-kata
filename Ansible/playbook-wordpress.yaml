@@ -4,11 +4,11 @@
   become: yes
   vars:
     wordpress_version: "{{ WPV }}"
-    db_name: {{ DBNAME }}
-    db_user: {{ USERNAME }}
-    db_password: {{ PASSWORD }}
-    db_host: {{ ENDPOINT }}
-    db_prefix: wp_
+    db_name: "{{ DBNAME }}"
+    db_user: "{{ USERNAME }}"
+    db_password: "{{ PASSWORD }}"
+    db_host: "{{ ENDPOINT }}"
+    db_prefix: "wp_"
   tasks:
     - name: Update apt package cache
       apt:
