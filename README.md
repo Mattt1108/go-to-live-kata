@@ -8,10 +8,15 @@ Le risorse messe a disposizione nel repository:
 * *assets*: dove sono presenti i media utilizzati
 *  *Parameters.json*: un file json utilizzato per passare i parametri da AWS CLI . All' interno del file sono presenti per ogni parametro dei valori di default assegnati ai ParameterValue , è necessario sostituire questi  valori se si vuole specificare un parametro. I valori di default sono gli stessi che si trovano seguendo l' approccio con console AWS.
 *  *README.md*: file che si sta visualizzando
-*  *template CloudFormation.yaml*: è template Cloudformation scritto in yaml , può essere caricato su console AWS, che passato da AWS CLI per creare lo Stack . Questo template si occupa della creazione dell'architettura e della configurazione base di wordpress
+*  *vpc.yaml*: template yaml , imposta la VPC , le subnet, le route , la NAT, l ' Internet Gateway
+*  *security-group.yaml*: template yaml , imposta i vari security group
+*  *load-balancer.yaml*: template yaml , imposta il bilanciatore
+*  *rds.yaml*: template yaml , imposta il database RDS utilizzato da wordpress
+*  *ec2.yaml*: template yaml , imposta l' autoscaling delle EC2 e il launch config
+*  *cloudfront.yaml*: template yaml, imposta cloudfront
 
 ## Parametri del Template  
-Il template richiede alcuni parametri per configurare correttamente l'architettura,altrimenti verranno messi di default.Assicurati di fornire i seguenti parametri:
+Il template richiede alcuni parametri per configurare correttamente l'architettura,altrimenti verranno messi di default. Assicurati di fornire i seguenti parametri:
 * `VPCCIDR`: Il CIDR per la VPC
 * `PrvSubnet1CIDR` e `PrvSubnet2CIDR`: CIDR per le subnet private.
 * `PubSubnet1CIDR` e `PubSubnet2CIDR`: CIDR per le subnet pubbliche.
@@ -21,24 +26,36 @@ Il template richiede alcuni parametri per configurare correttamente l'architettu
 * `DBNAME`: Nome del database di WordPress.
 * `USERNAME` e `PASSWORD`: Credenziali di accesso DB per WordPress.
 * `PriceClassCloudFront`: Classe di prezzo per CloudFront.
-
+* `NumeroDesEC2`: Numero di EC2 desiderato.
+* `NumeroMaxEC2`: Numero di EC2 massimo.
+* `NumeroMinEC2`: Numero di EC2 minimo.
 ## Come Creare lo Stack
 ### Dalla Console AWS
 
 1. Accedi alla tua console **AWS**.
 2. Naviga su **AWS CloudFormation**.
 3. Clicca su "**Create Stack**".
-4. Seleziona "**Template is ready**" e "**Upload a template file**", quindi fai clic su "**Choose file**" per selezionare il tuo file `template CloudFormation.yaml` dal tuo computer.
+4. Seleziona "**Template is ready**" e "**Upload a template file**", quindi fai clic su "**Choose file**" per selezionare il tuo file `vpc.yaml` dal tuo computer.
 5. Fai clic su "**Next**".
 6. Compila i parametri richiesti".
 7. Fai clic su "**Next**".
-8. Fornisci un nome per lo stack, ad esempio "Prova".
+8. Fornisci un nome per lo stack, ad esempio "VPC".
 9. Fai clic su "**Next**" e continua a completare il processo di creazione dello stack.
+
+
+Ripeti questa operazione con i restanti template in quest' ordine:
+1. *security-group.yaml*
+2. *load-balancer.yaml*
+3. *rds.yaml*
+4. *ec2.yaml*
+5. *cloudfront.yaml*
 
 Se desideri eliminare lo stack:
 1. Seleziona lo stack che desideri eliminare.
 2. Nella parte superiore della pagina dello stack, fai clic su "Delete".
 3. Verrà visualizzata una finestra di conferma. Leggi attentamente le informazioni e, se sei certo di voler eliminare lo stack, clicca su "Delete stack".
+
+Ripeti questa operazione con tutti gli stack rimanenti precedentemente creati
 ### Dalla AWS CLI
 
 Assicurati di avere la **AWS CLI** installata e configurata sul tuo computer.
