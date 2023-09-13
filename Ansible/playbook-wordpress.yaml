@@ -58,3 +58,19 @@
         src: wp-config.php.j2
         dest: /var/www/html/wordpress/wp-config.php
       when: not ansible_check_mode
+
+    - name: Configure Apache for WordPress
+      become: yes
+      become_method: sudo
+      lineinfile:
+        path: /etc/apache2/sites-available/000-default.conf 
+        state: present
+      when: not ansible_check_mode
+
+  handlers:
+    - name: Restart Apache
+      become: yes
+      become_method: sudo
+      service:
+        name: apache2
+        state: restarted
