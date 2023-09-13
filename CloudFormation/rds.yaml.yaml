@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Security group
+Description: RDS DB
 
 Parameters:
 ##MultiAZ
@@ -61,4 +61,28 @@ Resources:
       VPCSecurityGroups:
         - !ImportValue RDSSecurityGroup
       DBSubnetGroupName: !Ref DBSubnetGroup
+
+Outputs:
+  DBNAME:
+    Description: DB Name
+    Value: !Ref DBNAME
+    Export:
+      Name: DBNAME 
   
+  USERNAME:
+    Description: USERNAME
+    Value: !Ref USERNAME
+    Export:
+      Name: USERNAME 
+  
+  PASSWORD:
+    Description: PASSWORD
+    Value: !Ref PASSWORD
+    Export:
+      Name: PASSWORD 
+  
+  ENDPOINT:
+    Description: ENDPOINT
+    Value: !GetAtt RDSInstance.Endpoint.Address
+    Export:
+      Name: ENDPOINT 
