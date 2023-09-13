@@ -31,7 +31,6 @@
         src: /tmp/wordpress.tar.gz
         dest: /var/www/html/
         remote_src: yes
-      notify: Reload Apache
 
     - name: Set ownership and permissions
       file:
