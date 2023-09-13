@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "DBMAZ",
+    "ParameterValue": "false"
+  },
+  {
+    "ParameterKey": "StorageDB",
+    "ParameterValue": "5"
+  },
+  {
+    "ParameterKey": "DBNAME",
+    "ParameterValue": "wordpress"
+  },
+  {
+    "ParameterKey": "USERNAME",
+    "ParameterValue": "username"
+  },
+  {
+    "ParameterKey": "PASSWORD",
+    "ParameterValue": "password123"
+  }
+]

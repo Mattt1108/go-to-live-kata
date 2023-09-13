@@ -1,0 +1,19 @@
+[
+  
+  {
+    "ParameterKey": "NumeroMinEC2",
+    "ParameterValue": "2"
+  },
+  {
+    "ParameterKey": "NumeroDesEC2",
+    "ParameterValue": "2"
+  },
+  {
+    "ParameterKey": "NumeroMaxEC2",
+    "ParameterValue": "4"
+  },
+  {
+    "ParameterKey": "WPV",
+    "ParameterValue": "latest"
+  }
+]
