@@ -1,29 +1,27 @@
----
-
 - name: Install WordPress
   hosts: localhost
   become: yes
   vars:
-    wordpress_version: "{{WPV}}"
-    db_name: "{{DBNAME}}"
-    db_user: "{{USERNAME}}"
-    db_password: "{{PASSWORD}}"
-    db_host: "{{ENDPOINT}}"
+    wordpress_version: "{{ WPV }}"
+    db_name: "{{ DBNAME }}"
+    db_user: "{{ USERNAME }}"
+    db_password: "{{ PASSWORD }}"
+    db_host: "{{ ENDPOINT }}"
     db_prefix: "wp_"
   tasks:
     - name: Update apt package cache
       apt:
         update_cache: yes
 
-- name: Debug WordPress variables
-  debug:
-    var: 
-      wordpress_version: "{{ wordpress_version }}"
-      db_name: "{{ db_name }}"
-      db_user: "{{ db_user }}"
-      db_password: "{{ db_password }}"
-      db_host: "{{ db_host }}"
-      db_prefix: "{{ db_prefix }}"
+    - name: Debug WordPress variables
+      debug:
+        var: 
+          wordpress_version: "{{ wordpress_version }}"
+          db_name: "{{ db_name }}"
+          db_user: "{{ db_user }}"
+          db_password: "{{ db_password }}"
+          db_host: "{{ db_host }}"
+          db_prefix: "{{ db_prefix }}"
 
     - name: Install required packages
       apt:
@@ -39,7 +37,7 @@
 
     - name: Download and extract WordPress
       get_url:
-        url: "https://wordpress.org/wordpress-{{wordpress_version}}.tar.gz"
+        url: "https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz"
         dest: /tmp/wordpress.tar.gz
 
     - name: Extract WordPress
