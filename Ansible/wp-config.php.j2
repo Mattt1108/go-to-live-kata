@@ -1,0 +1,18 @@
+<?php
+/** Impostazioni per il database */
+define('DB_NAME', '{{ db_name }}');
+define('DB_USER', '{{ db_user }}');
+define('DB_PASSWORD', '{{ db_password }}');
+define('DB_HOST', '{{ db_host }}');
+define('DB_CHARSET', 'utf8');
+define('DB_COLLATE', '');
+
+/** Prefisso delle tabelle nel database */
+$table_prefix  = '{{ db_prefix }}';
+
+/** ABSPATH costante di WordPress */
+if ( !defined('ABSPATH') )
+  define('ABSPATH', dirname(__FILE__) . '/');
+
+/** Imposta le variabili di WordPress e avvia */
+require_once(ABSPATH . 'wp-settings.php');
