@@ -11,16 +11,15 @@
 
     - name: Install required packages
       apt:
-        name: "{{ item }}"
+        name:
+          - apache2
+          - mysql-server
+          - php
+          - php-mysql
+          - libapache2-mod-php
+          - php-cli
+          - curl
         state: present
-      with_items:
-        - apache2
-        - mysql-server
-        - php
-        - php-mysql
-        - libapache2-mod-php
-        - php-cli
-        - curl
 
     - name: Download and extract WordPress
       get_url:
@@ -52,10 +51,11 @@
         --path=/var/www/html/wordpress
       args:
         creates: /var/www/html/wordpress/wp-config.php
-      when: not wp_config_exists.rc == 0
+      when: not ansible_check_mode
+      register: wp_config_result
 
     - name: Install WordPress
       command: wp core install
       args:
         chdir: /var/www/html/wordpress
-      when: not wp_installed.rc == 0
+      when: not ansible_check_mode and wp_config_result.rc == 0
