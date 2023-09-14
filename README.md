@@ -65,10 +65,11 @@ git clone https://github.com/Mattt1108/go-to-live-kata.git
 ```
 2. Entra nel repository clonato
 ```bash
-cd go-to-live-kata/Parametersw
+cd go-to-live-kata/Parameters
 ```
 3. Inserisci i parametri desiderati all' interno dei file json
-4. ```bash
+4. Salgo di una cartella
+ ```bash
 cd .. 
 ```
 5. Dai il permesso di esecuzione allo script `create_stack.sh`   
