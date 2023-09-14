@@ -67,22 +67,20 @@ git clone https://github.com/Mattt1108/go-to-live-kata.git
 ```bash
 cd go-to-live-kata
 ```
-3. Compila il file Parameters.json  
-
-Lancia questo comando da terminale per creare lo stack
-Sostituisci `NomeStack` con il nome dello stack che desideri impostare
+3. Dai il permesso di esecuzione allo script `create_stack.sh`   
 ```bash
-aws cloudformation create-stack \
---stack-name NomeStack \
---template-body file://./template\ CloudFormation.yaml \
---parameters file://./Parameters.json
+sudo chmod +x 
 ```
-
-Se desidere eliminare lo stack :
+4. Lancia lo script `create_stack.sh` da terminale per creare gli stack
+```bash
+sudo ./create_stack.sh
+```
+5. Attendi la creazione dei vari stack
+Se desidere eliminare uno stack :
 ```bash
 aws cloudformation delete-stack --stack-name NomeStack
 ```
-
+Ricorda di rimuovere sempre risorse non utilizzate
 ## Avvio dell'Architettura  
 Dopo aver creato con successo lo stack, puoi accedere alla console AWS e iniziare a configurare il tuo progetto .
 
