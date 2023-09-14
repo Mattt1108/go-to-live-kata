@@ -81,11 +81,11 @@ sudo chmod +x
 sudo ./create_stack.sh
 ```
 6. Attendi la creazione dei vari stack
-Se desidere eliminare uno stack :
+
+Se desidere eliminare uno stack e le relative risorse :
 ```bash
 aws cloudformation delete-stack --stack-name NomeStack
 ```
-Ricorda di rimuovere sempre risorse non utilizzate
 ## Avvio dell'Architettura  
 Dopo aver creato con successo lo stack, puoi accedere alla console AWS e iniziare a configurare il tuo progetto .
 
