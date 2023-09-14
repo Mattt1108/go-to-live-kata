@@ -65,17 +65,21 @@ git clone https://github.com/Mattt1108/go-to-live-kata.git
 ```
 2. Entra nel repository clonato
 ```bash
-cd go-to-live-kata
+cd go-to-live-kata/Parametersw
 ```
-3. Dai il permesso di esecuzione allo script `create_stack.sh`   
+3. Inserisci i parametri desiderati all' interno dei file json
+4. ```bash
+cd .. 
+```
+5. Dai il permesso di esecuzione allo script `create_stack.sh`   
 ```bash
 sudo chmod +x 
 ```
-4. Lancia lo script `create_stack.sh` da terminale per creare gli stack
+5. Lancia lo script `create_stack.sh` da terminale per creare gli stack
 ```bash
 sudo ./create_stack.sh
 ```
-5. Attendi la creazione dei vari stack
+6. Attendi la creazione dei vari stack
 Se desidere eliminare uno stack :
 ```bash
 aws cloudformation delete-stack --stack-name NomeStack
