@@ -6,7 +6,7 @@ Questo template **AWS CloudFormation** permette di creare un'architettura ad alt
 ## Guida al Repository
 Le risorse messe a disposizione nel repository:  
 * *assets*: dove sono presenti i media utilizzati
-*  *Parameters.json*: un file json utilizzato per passare i parametri da AWS CLI . All' interno del file sono presenti per ogni parametro dei valori di default assegnati ai ParameterValue , è necessario sostituire questi  valori se si vuole specificare un parametro. I valori di default sono gli stessi che si trovano seguendo l' approccio con console AWS.
+* parameters *.json* per ogni template cloudformation: file json utilizzati per passare i parametri da AWS CLI . All' interno di ogni file sono presenti per ogni parametro dei valori di default assegnati ai ParameterValue , è necessario sostituire questi  valori se si vuole specificare un parametro. I valori di default sono gli stessi che si trovano seguendo l' approccio con console AWS.
 *  *README.md*: file che si sta visualizzando
 *  *vpc.yaml*: template yaml , imposta la VPC , le subnet, le route , la NAT, l ' Internet Gateway
 *  *security-group.yaml*: template yaml , imposta i vari security group
