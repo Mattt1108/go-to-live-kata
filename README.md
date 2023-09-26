@@ -1,6 +1,6 @@
 # AWS CloudFormation Template per go-to-live-kata
 
-Questo template **AWS CloudFormation** permette di creare un'architettura ad alta disponibilità per il progetto "go-to-live-kata". L'architettura comprende una **VPC** con subnet pubbliche e private, un **bilanciamento del carico**, un **database RDS** e una **distribuzione CloudFront**.Infine, ho installato e configurato WordPress all'interno dell'ambiente, consentendo così la creazione e la gestione del nostro sito web in modo semplice ed efficace. Questa configurazione ci permette di concentrarci sul contenuto del nostro sito, sapendo che l'infrastruttura sottostante è altamente disponibile e sicura. 
+Questi template **AWS CloudFormation** permettono di creare un'architettura ad alta disponibilità per il progetto "go-to-live-kata". L'architettura comprende una **VPC** con subnet pubbliche e private, un **bilanciamento del carico**, un **database RDS** e una **distribuzione CloudFront**.Infine, ho installato e configurato WordPress all'interno dell'ambiente, consentendo così la creazione e la gestione del nostro sito web in modo semplice ed efficace. Questa configurazione ci permette di concentrarci sul contenuto del nostro sito, sapendo che l'infrastruttura sottostante è altamente disponibile e sicura. 
 ## Architettura proposta
 ![Architettura](assets/Architettura.jpg)
 ## Guida al Repository
